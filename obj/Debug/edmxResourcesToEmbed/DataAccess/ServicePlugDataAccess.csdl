@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ServicePlugModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BankingDetail">
+    <Key>
+      <PropertyRef Name="CardNumber" />
+    </Key>
+    <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="card_holdersname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="card_months" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="card_year" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="card_cvv" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Users_BankingDetails1" FromRole="BankingDetails" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="client_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Client_Users" FromRole="Client" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="user_name" Type="String" MaxLength="255" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="user_surname" Type="String" MaxLength="255" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="user_email" Type="String" MaxLength="255" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="user_contactdetails" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="user_rating" Type="Int32" Nullable="false" />
+    <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="BankingDetail" Relationship="Self.FK_Users_BankingDetails1" FromRole="Users" ToRole="BankingDetails" />
+    <NavigationProperty Name="Client" Relationship="Self.FK_Client_Users" FromRole="Users" ToRole="Client" />
+  </EntityType>
+  <Association Name="FK_Users_BankingDetails1">
+    <End Role="BankingDetails" Type="Self.BankingDetail" Multiplicity="1" />
+    <End Role="Users" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankingDetails">
+        <PropertyRef Name="CardNumber" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="CardNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Client_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ServicePlugEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BankingDetails" EntityType="Self.BankingDetail" />
+    <EntitySet Name="Clients" EntityType="Self.Client" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Users_BankingDetails1" Association="Self.FK_Users_BankingDetails1">
+      <End Role="BankingDetails" EntitySet="BankingDetails" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Client_Users" Association="Self.FK_Client_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Client" EntitySet="Clients" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
