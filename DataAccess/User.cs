@@ -21,7 +21,7 @@ namespace ServicePlugApi11.DataAccess
         public string user_password { get; set; }
         public string user_contactdetails { get; set; }
         public int user_rating { get; set; }
-        public string CardNumber { get; set; }
+        public int CardNumber { get; set; }
     
         public virtual BankingDetail BankingDetail { get; set; }
         public virtual Client Client { get; set; }
