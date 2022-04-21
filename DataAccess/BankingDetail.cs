@@ -26,7 +26,7 @@ namespace ServicePlugApi11.DataAccess
         public string card_year { get; set; }
         public string card_cvv { get; set; }
         
-        public virtual user user { get; set; }
+        public virtual User User { get; set; }
       
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
