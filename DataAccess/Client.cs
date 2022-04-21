@@ -18,7 +18,8 @@ namespace ServicePlugApi11.DataAccess
         public string client_address { get; set; }
         public string CardNumber { get; set; }
         
-        public virtual BankingDetail BankingDetail { get; set;
+        public virtual BankingDetail BankingDetail { get; set;}
+      
     
         public virtual User User { get; set; }
     
